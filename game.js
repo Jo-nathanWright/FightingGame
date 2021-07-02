@@ -1,34 +1,65 @@
-let health = 100
 let hit = 0
-
-function update() {
-    document.getElementById("health").innerText = `${health}`
-    document.getElementById("hits").innerText = `${hit}`
-    whenZero()
-}
-function whenZero() {
-    if (health <= 0) {
-        health = 0
-        document.getElementById("Inputs").innerHTML = `<button class="btn btn-dark" disabled>You Won</button>`
+let possibleAttacks = [punch, kick, headbutt]
+let players = {
+    bob: {
+        health: 100,
+        damage: {
+            punch: 1,
+            kick: 2,
+            headbutt: 5
+        }
+    },
+    jake: {
+        health: 120,
+        damage: {
+            punch: 2,
+            kick: 3,
+            headbutt: 4
+        }
     }
-    update()
+}
+console.log(players.bob.health)
+console.log(players.bob.damage.punch)
+
+
+// function attack(targetName, type) {
+//     console.log(`You ${type} ${targetName}`)
+//     console.log(`Players health : ${players[targetName].health}`)
+//     console.log(`Attack Damage : ${players[targetName].damage[type]}`)
+//     players[targetName].health -= players[targetName].damage[type]
+//     console.log(`Players health : ${players[targetName].health}`)
+//     update()
+// }
+function update(targetName) {
+    console.log(`Target Name =`, targetName)
+    console.log(`Players Health =`, players[targetName].health)
+    document.getElementById("health").innerText = `${players[targetName].health}`
+    document.getElementById("hits").innerText = `${hit}`
+    whenZero(targetName)
+}
+function whenZero(targetName) {
+    if (players[targetName].health <= 0) {
+        players[targetName].health = 0
+        document.getElementById("Inputs").innerHTML = `<button class="btn btn-dark" disabled>You Won</button>`
+        document.getElementById("health").innerText = `${players[targetName].health}`
+    }
 }
 
-function punch() {
-    health = health - 1
+function punch(targetName) {
+    players[targetName].health = players[targetName].health - 1
     hit = hit + 1
     console.log('Lil punch')
-    update()
+    update(targetName)
 }
-function kick() {
-    health = health - 2
+function kick(targetName) {
+    players[targetName].health = players[targetName].health - 2
     hit = hit + 1
     console.log('Solid kick')
-    update()
+    update(targetName)
 }
-function headbutt() {
-    health = health - 5
+function headbutt(targetName) {
+    players[targetName].health = players[targetName].health - 5
     hit = hit + 1
     console.log('Huge Headbutt')
-    update()
+    update(targetName)
 }
